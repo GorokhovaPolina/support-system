@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/icons/icon2.jpg" type="image/jpg">
+    <title>Обращения по статусу</title>
+</head>
+<body>
+    <h1>Обращения по статусу</h1>
+    <div id="request-list">
+    </div>
+    <script>
+        const API_URL = 'http://localhost:3000/requests';
+        const urlParams = new URLSearchParams(window.location.search);
+        const statusFilter = decodeURIComponent(urlParams.get('status'));
+        function loadRequestsByStatus() {
+            fetch(API_URL)
+                .then(response => response.json())
+                .then(requests => {
+                    const filteredRequests = requests.filter(request => request.status.toLowerCase() === statusFilter.toLowerCase());
+                    const requestListElement = document.getElementById('request-list');
+                    requestListElement.innerHTML = '';
+                    if (filteredRequests.length === 0) {
+                        requestListElement.innerHTML = '<p>Нет обращений с таким статусом.</p>';
+                    } else {
+                        filteredRequests.forEach(request => {
+                            const requestElement = document.createElement('div');
+                            requestElement.classList.add('request-item');
+                            requestElement.innerHTML = `
+                                <h3>${request.topic}</h3>
+                                <p>${request.description}</p>
+                                <p>Статус: ${request.status}</p>
+                                <button onclick="setInWork(${request.id})" ${request.status === 'В работе' ? 'disabled' : ''}>В работу</button>
+                                <button onclick="completeRequest(${request.id})" ${request.status !== 'В работе' ? 'disabled' : ''}>Завершить</button>
+                                <button onclick="cancelRequest(${request.id})" ${request.status === 'Отменено' ? 'disabled' : ''}>Отменить</button>
+                            `;
+                            requestListElement.appendChild(requestElement);
+                        });
+                    }
+                })
+                .catch(err => {
+                    console.error('Ошибка при загрузке обращений:', err);
+                });
+        }
+        async function setInWork(id) {
+            await fetch(`${API_URL}/${id}/work`, { method: 'PATCH' });
+            loadRequestsByStatus();
+        }
+        async function completeRequest(id) {
+            const resolution = prompt("Введите решение проблемы:");
+            if (!resolution) return;
+            await fetch(`${API_URL}/${id}/complete`, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ resolution })
+            });
+            loadRequestsByStatus();
+        }
+        async function cancelRequest(id) {
+            const reason = prompt("Введите причину отмены:");
+            if (!reason) return;
+
+            await fetch(`${API_URL}/${id}/cancel`, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ reason })
+            });
+            loadRequestsByStatus();
+        }
+        window.onload = loadRequestsByStatus;
+    </script>
+</body>
+</html>

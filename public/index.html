@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/icons/icon1.png" type="image/png">
+    <title >Система обращений</title>
+    <script defer src="script.js"></script>
+    <style>
+        body {
+            font-family: 'Times New Roman', Times, serif;
+            padding: 20px;
+            margin: 0;
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+        form {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+        .status-folder {
+            cursor: pointer;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+        .requests-list {
+            margin-left: 20px;
+            display: none;
+        }
+        input, textarea {
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 16px;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: 98%;
+        }
+        input:focus, textarea:focus {
+            border-color: #007bff;
+            outline: none;
+            width: 95%;
+        }
+        button {
+            background-color: #86e289;
+            color: rgb(0, 0, 0);
+            padding: 10px 20px;
+            border: 1px solid #000000;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #70d176;
+        }
+        .status-folder {
+            cursor: pointer;
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #f2f2f2;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-weight: bold;
+            display: inline-block;
+            width: 98%;
+        }
+        #error-message, #success-message {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 16px;
+        }
+        #error-message {
+            color: red;
+        }
+        #success-message {
+            color: green;
+        }
+        .status-folder:hover {
+            background-color: #e2e2e2;
+        }
+        .requests-list {
+            margin-left: 20px;
+            display: none;
+            border-left: 3px solid #4CAF50;
+            padding-left: 10px;
+        }
+        .requests-list div {
+            background-color: #f9f9f9;
+            padding: 8px;
+            margin-bottom: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        .requests-list div:hover {
+            background-color: #f1f1f1;
+        }
+    </style>
+</head>
+<body>
+    <h1>Система обращений</h1>
+    <h2>Создать обращение</h2>
+    <form id="requestForm">
+        <label for="topic">Тема:</label>
+        <input type="text" id="topic" name="topic" required><br><br>
+
+        <label for="description">Описание:</label>
+        <input type="text" id="description" name="description" required><br><br>
+        <div id="error-message" style="color: red; display: none;">❌ Пожалуйста, заполните все поля!</div>
+        <div id="success-message" style="color: green; display: none;">✅ Обращение создано!</div>
+
+        <button type="submit">Создать 🚀</button>
+    </form>
+    <body>    
+        <div>
+            <h2>Статусы обращений</h2>
+            <ul>
+                <li><a href="statusPage.html?status=Новое">Новые обращения</a></li>
+                <li><a href="statusPage.html?status=В%20работе">Обращения в работе</a></li>
+                <li><a href="statusPage.html?status=Завершено">Завершённые обращения</a></li>
+                <li><a href="statusPage.html?status=Отменено">Отменённые обращения</a></li>
+            </ul>
+        </div>
+    </body>
+    
+    <h2>Фильтрация обращений</h2>
+    <ul><a href="filtration.html">Фильтрация обращений</a></ul>
+</body>
+</html>

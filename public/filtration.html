@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/icons/iconF.jpg" type="image/jpg">
+    <title>Фильтрация обращений</title>
+    <style>
+        body {
+            font-family: 'Times New Roman', Times, serif;
+            padding: 20px;
+            margin: 0;
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #86e289; /* Зеленый цвет */
+            color: rgb(0, 0, 0);
+            padding: 10px 20px;
+            border: 1px solid #000000;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #70d176; /* Более темный оттенок при наведении */
+        }
+        select, option {
+            font-family: 'Times New Roman', Times, serif;
+        }
+        input[type="date"] {
+            font-family: 'Times New Roman', Times, serif;
+        }
+    </style>
+</head>
+<body>
+    <h1>Фильтрация обращений</h1>
+    <form id="filter-form">
+        <label for="status">Статус:</label>
+        <select id="status" name="status" required>
+            <option value="Новое">Новое</option>
+            <option value="В работе">В работе</option>
+            <option value="Завершено">Завершено</option>
+            <option value="Отменено">Отменено</option>
+        </select><br><br>
+        <label for="startDate">Дата начала:</label>
+        <input type="date" id="startDate" name="startDate"><br><br>
+        <label for="endDate">Дата окончания:</label>
+        <input type="date" id="endDate" name="endDate"><br><br>
+        <button type="submit">Применить фильтры</button>
+    </form>
+    <script>
+        document.getElementById('filter-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const status = encodeURIComponent(document.getElementById('status').value);
+            const startDate = document.getElementById('startDate').value;
+            const endDate = document.getElementById('endDate').value;
+            let url = `statusPage.html?status=${status}`;
+            if (startDate) url += `&startDate=${startDate}`;
+            if (endDate) url += `&endDate=${endDate}`;
+            window.location.href = url;
+        });
+    </script>
+</body>
+</html>
